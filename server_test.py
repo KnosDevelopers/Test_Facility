@@ -18,4 +18,4 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as server:
         while True:
             data = connection.recv(1024)
             print(data.decode())
-            connection.send(data.encode())
+            connection.send(bytes(data))  
