@@ -15,8 +15,7 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as server:
     with connection:
         print("New connection from " + str(address))
         
-        data = connection.recv(1024)
-        if data == b"Master":
-            connection.send(b"Permission Granted")
-        else:
-            print(data)
+        while True:
+            data = connection.recv(1024)
+            print(data.decode())
+            connection.send(data.encode())
