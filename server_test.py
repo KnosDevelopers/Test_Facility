@@ -14,8 +14,15 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as server:
 
     with connection:
         print("New connection from " + str(address))
-        
+        print("\n")
+
         while True:
-            data = connection.recv(1024)
-            print(data.decode())
-            connection.send(bytes(data))  
+            received = False
+
+            while received == False:
+                msg = (str(input("Enter message ==> "))).encode()
+                connection.send(bytes(msg))
+                print("\n")
+                msg_recv = connection.recv(1024)
+                print(msg_recv.decode(),"\n")
+                received = True
