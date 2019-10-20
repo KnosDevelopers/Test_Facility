@@ -10,10 +10,23 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as server:
     print("Trying to estabilish connection with the server...")
    
     server.connect((host,port)) #trying to connect
-    server.send(b"Master")
-    data = server.recv(1024)
 
-    if data == b"Permission Granted":
+
+    """if data == b"Permission Granted":
         print("Connection estabilished successfully to server")
     else:
-        print(data)
+        print(data)"""
+
+    a = "continue"
+    while a!='exit':
+        a=input('Enter a message: ')
+        
+        if a=="exit":
+            break
+        else:
+            server.send(bytes(a.encode()))
+            x = server.recv(1024)
+            print(x.decode())
+        
+
+        
