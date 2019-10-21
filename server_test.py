@@ -2,7 +2,7 @@
 
 import socket
 
-host = '192.168.18.68' #local IPV4 address of the machine
+host = '192.168.18.89' #local IPV4 address of the machine
 port = 2030 #any port above the range of 1020
 
 with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as server:
