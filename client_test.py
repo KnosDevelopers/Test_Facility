@@ -2,7 +2,7 @@
 
 import socket
 
-host = "192.168.18.68" #the local IP of the server
+host = "192.168.18.89" #the local IP of the server
 port = 2030 #the same port of the server
 
 with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as server:
