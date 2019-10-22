@@ -25,15 +25,15 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as server:
             except:
                 print("\nSome error occured while receiving data from client at ",address)
                 received = False
-        print("\nReceived data: ",data.decode())
+
+        print("\nRecieved data: ",repr(data))
         
         echoed = False
         while echoed == False:
             try:
-                connection.send(data.encode())
-                print("\nEchoed data: ",data.decode())
+                connection.sendall(bytes(data))
+                print("\nEchoed data: ",repr(data))
                 echoed = True
             except:
                 print("Some error occured while echoeing back to client at ",address)
                 echoed = False
-
