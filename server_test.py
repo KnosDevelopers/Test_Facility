@@ -7,22 +7,35 @@ port = 2030 #any port above the range of 1020
 
 with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as server:
     server.bind((host,port))
+    print("Server estabilished. Waiting for connections")
     server.listen()
     connection,address = server.accept()
-    
-    print("Server estabilished. Waiting for connections...")
+    print("\nConnection estabilished to client at ",address)
 
-    with connection:
-        print("New connection from " + str(address))
-        print("\n")
+    while True:
+        received = False
 
-        while True:
-            received = False
-
-            while received == False:
-                msg = (str(input("Enter message ==> "))).encode()
-                connection.send(bytes(msg))
-                print("\n")
-                msg_recv = connection.recv(1024)
-                print(msg_recv.decode(),"\n")
+        while received == False:
+            try:
+                print("\nWaiting for data from client at ",address)
+                data = connection.recv(1024)
                 received = True
+            except:
+                print("\nSome error occured while receiving data from client at ",address)
+                received = False
+            finally:
+                continue
+        print("\nReceived data: ",data.decode())
+        
+        echoed = False
+        while echoed == False:
+            try:
+                connection.send(data.encode())
+                print("\nEchoed data: ",data.decode())
+                echoed = True
+            except:
+                print("Some error occured while echoeing back to client at ",address)
+                echoed = False
+            finally:
+                continue
+
