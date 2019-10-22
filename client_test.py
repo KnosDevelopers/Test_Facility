@@ -12,8 +12,6 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as server:
         print("\nEstabilished connection")
     except:
         print("\nCan\'t connect due to some error")
-    finally:
-        continue
 
     print("\nSend data to the server to listen its echo.")
 
@@ -27,8 +25,6 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as server:
                 server.send(byte(usr_data.encode()))
             except:
                 print("\nThere was a problem in sending data to the server")
-            finally:
-                continue
 
             try:
                 data_recv = server.recv(1024)
@@ -37,6 +33,3 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as server:
             except:
                 print("\nThere was a problem in receiving data from server")
                 echo_heard = False
-            finally:
-                continue
-
