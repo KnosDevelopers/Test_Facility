@@ -25,8 +25,6 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as server:
             except:
                 print("\nSome error occured while receiving data from client at ",address)
                 received = False
-            finally:
-                continue
         print("\nReceived data: ",data.decode())
         
         echoed = False
@@ -38,6 +36,4 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as server:
             except:
                 print("Some error occured while echoeing back to client at ",address)
                 echoed = False
-            finally:
-                continue
 
