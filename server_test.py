@@ -5,9 +5,11 @@ import socket
 host = '192.168.18.89' #local IPV4 address of the machine
 port = 2030 #any port above the range of 1020
 
+print("\nRunning...")
+
 with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as server:
     server.bind((host,port))
-    print("Server estabilished. Waiting for connections")
+    print("\nServer estabilished. Waiting for connections")
     server.listen()
     connection,address = server.accept()
     print("\nConnection estabilished to client at ",address)
