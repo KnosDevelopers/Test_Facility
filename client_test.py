@@ -7,11 +7,12 @@ port = 2030 #the same port of the server
 
 with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as server:
     try:
-        print("Initiating connection to the server at ",host)
-        server.connect((host,port))
-        print("\nEstabilished connection")
+        print("\nInitiating connection to the server")
+        server.connect((host,port)) 
+        print("Connected to the server at",host)
     except:
         print("\nCan\'t connect due to some error")
+        quit()
 
     print("\nSend data to the server to listen its echo.")
 
@@ -20,16 +21,17 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as server:
         echo_heard = False
 
         while echo_heard == False:
-            try:
-                print("\nSending data to ",host)
-                server.send(byte(usr_data.encode()))
-            except:
-                print("\nThere was a problem in sending data to the server")
-
+            
+            print("\nSending data to server at",host)
+            server.sendall(bytes(usr_data.encode()))
+            
             try:
                 data_recv = server.recv(1024)
-                print("\nEcho: ",data_recv.decode())
+                print("\nEcho: ",repr(data_recv))
                 echo_heard = True
             except:
                 print("\nThere was a problem in receiving data from server")
                 echo_heard = False
+            finally:
+                break
+        
