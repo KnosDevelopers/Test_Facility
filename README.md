@@ -1,2 +1,2 @@
-#Development branch
+# Development branch.
 Read info.txt for more information.
