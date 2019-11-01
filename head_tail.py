@@ -46,12 +46,11 @@ else:
 if(toss_elect=="user"):
     while True:
         toss_decision = input("Bat or Bowl? >> ")
-        toss_decision.lower()
-        if(toss_decision=="bat"):
+        if(toss_decision.lower()=="bat"):
             bat_first=1
             print("You have elected to",toss_decision.capitalize(),"first")
             break
-        elif(toss_decision=="bowl"):
+        elif(toss_decision.lower()=="bowl"):
             print("You have elected to",toss_decision.capitalize(),"first")
             break
         else:
