@@ -1,6 +1,6 @@
 #This is a console based open source head tail game, inspired by our own childhood!
 #Try and test it vigorously so that errors are found
-#Do tell my if any errors are found or simply correct it yourself and then highlight them to me
+#Do tell me if any errors are found or simply correct it yourself and then highlight them to me
 #Your feedback is highly appreciated!
 #KNOS DEVS FOR LIFE!!!!!
 
@@ -8,6 +8,44 @@
 
 import random
 import time
+import os
+
+#SCREEN CLEAR FUNCTION
+
+def clear(): 
+  
+    # for windows 
+    if os.name == 'nt': 
+        _ = os.system('cls') 
+  
+    # for mac and linux(here, os.name is 'posix') 
+    else: 
+        _ = os.system('clear')
+
+#DISPLAYING LOGOS
+
+os.system("cols=250 lines=50")
+path_to_knos_logo=os.path.dirname(os.path.abspath(__file__))+'/resources/knos_main_logo.txt'
+path_to_testa_coda=os.path.dirname(os.path.abspath(__file__))+'/resources/testacoda.txt'
+try:
+    ff=open(path_to_knos_logo,"r",encoding="utf-8")
+    text = ff.read()
+    print(text)
+    ff.close()
+    for x in range(33):
+        time.sleep(.100)
+        print("")
+    f= open(path_to_testa_coda,"r",encoding="utf-8")
+    text = f.read()
+    print(text)
+    f.close()
+    for x in range(33):
+        time.sleep(.100)
+        print("")
+except:
+    print("Download the resources folder from the repository and place it in current directory")
+
+clear()
 
 #TOSS CODE:
 
