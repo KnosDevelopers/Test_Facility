@@ -1,0 +1,1 @@
+SignIn window and Guest window remains same as the the main menu, "Remains same" means the title of the window.
