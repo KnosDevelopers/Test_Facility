@@ -12,7 +12,7 @@ def connection_handler(connection_object):
         if not cmd_data:
             print("No command received. Ending connection.")
             lock.release()
-            break()
+            break
         print(cmd_data)
         
         connection_object.send(cmd_data)
