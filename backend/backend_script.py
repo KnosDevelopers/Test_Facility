@@ -31,7 +31,7 @@ def main():
         connection_object,address = server.accept()
         lock.acquire()
         print("Connected to ",address[0],":",address[1])
-        start_new_thread(connection_handler,(connection_object,)
+        threading.start_new_thread(connection_handler,(connection_object,))
     server.close()
 
 if __name__ == '__main__':
