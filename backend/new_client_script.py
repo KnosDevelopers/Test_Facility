@@ -2,8 +2,8 @@
 
 import socket
 
-host = "192.168.18.89" #the local IP of the server
-port = 2030 #the same port of the server
+host = "0.tcp.ngrok.io" #the local IP of the server
+port = 18698 #the same port of the server
 
 server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 try:
