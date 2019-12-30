@@ -4,16 +4,14 @@ import socket
 from _thread import *
 import threading
 
-lock = threading.Lock()
 
 def connection_handler(connection_object):
     while True:
         cmd_data = connection_object.recv(1024)
         if not cmd_data:
             print("No command received. Ending connection.")
-            lock.release()
             break
-        print(cmd_data)
+        print(cmd_data.decode('ascii'))
         
         connection_object.send(cmd_data)
     connection_object.close()
@@ -29,7 +27,6 @@ def main():
 
     while True:
         connection_object,address = server.accept()
-        lock.acquire()
         print("Connected to ",address[0],":",address[1])
         threading._start_new_thread(connection_handler,(connection_object,))
     server.close()
