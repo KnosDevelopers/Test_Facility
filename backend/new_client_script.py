@@ -20,7 +20,7 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as server:
         data = str(input("\nType something: "))
         server.send(data.encode('ascii'))
         data_recv = server.recv(1024)
-        print("Received from server : ",str(data_recv.decode('ascii'))
+        print("Received from server : ",str(data_recv.decode('ascii')))
         ans = input("\nDo you want to continue? (y/n)")
         if ans=='y':
             continue
