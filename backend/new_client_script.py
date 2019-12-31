@@ -3,7 +3,7 @@
 import socket
 
 host = "0.tcp.ngrok.io" #the local IP of the server
-port = 18698 #the same port of the server
+port = 16617 #the same port of the server
 
 server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 try:
