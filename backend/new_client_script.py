@@ -6,7 +6,8 @@ import pymongo
 
 def main(port_no):
     host = "0.tcp.ngrok.io" #the local IP of the server
-    port = port_no #the same port of the server
+    port = int(port_no) #the same port of the server
+    print("Using PORT ", port)
 
     server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     try:
