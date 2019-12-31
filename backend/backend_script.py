@@ -34,8 +34,10 @@ def main():
     server.close()
 
 def port_updater():
+    options = webdriver.ChromeOptions()
+    options.binary_location = '/usr/bin/chromium-browser'
 
-    browser = webdriver.chromium('/usr/lib/chromium-browser/chromedriver')
+    browser = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver',chrome_options=options)
     browser.get('http://127.0.0.1:4040/status')
     full_xpath = str("/html/body/div[2]/div/div/div/div[1]/div[1]/ul/li/div/table/tbody/tr[1]/td")
     port_no = (browser.find_element_by_xpath(full_xpath)).text
