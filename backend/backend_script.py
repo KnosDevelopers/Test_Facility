@@ -3,6 +3,8 @@
 import socket
 from _thread import *
 import threading
+from selenium import webdriver
+import pymongo
 
 
 def connection_handler(connection_object):
@@ -31,5 +33,15 @@ def main():
         threading._start_new_thread(connection_handler,(connection_object,))
     server.close()
 
+def port_updater():
+    browser = webdriver.Chrome('/home/pi/Downloads/chromedriver')
+    browser.get('http://127.0.0.1:4040/status')
+    full_xpath = str("/html/body/div[2]/div/div/div/div[1]/div[1]/ul/li/div/table/tbody/tr[1]/td")
+    port_no = (browser.find_element_by_xpath(full_xpath)).text
+
+    client = pymongo.MongoClient("mongodb+srv://portupdater:freehitportupdater@testacoda-001-cj5sj.mongodb.net/test?retryWrites=true&w=majority")
+    db = client.freehit_db
+    collection = db.port
+    collection.update_one({"port" : },{"$set" : {"port" : port_no}})
 if __name__ == '__main__':
     main()
