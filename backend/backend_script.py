@@ -42,6 +42,6 @@ def port_updater():
     client = pymongo.MongoClient("mongodb+srv://portupdater:freehitportupdater@testacoda-001-cj5sj.mongodb.net/test?retryWrites=true&w=majority")
     db = client.freehit_db
     collection = db.port
-    collection.update_one({"port" : },{"$set" : {"port" : port_no}})
+    collection.update_one({"port"},{"$set" : {"port" : port_no}})
 if __name__ == '__main__':
     main()
