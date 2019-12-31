@@ -44,4 +44,5 @@ def port_updater():
     collection = db.port
     collection.update_one({"port"},{"$set" : {"port" : port_no}})
 if __name__ == '__main__':
+    port_updater()
     main()
