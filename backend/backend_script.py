@@ -9,13 +9,18 @@ import pymongo
 
 def connection_handler(connection_object):
     while True:
+        confirm_msg = "Success"
         cmd_data = connection_object.recv(1024)
-        if not cmd_data:
-            print("No command received. Ending connection.")
-            break
-        print(cmd_data.decode('ascii'))
-        
-        connection_object.send(cmd_data)
+        data_string = (cmd_data.decode('ascii')).split(":")
+        if data_string[0] == 'ts':
+            print("First name: ",data_string[1])
+            print("Last name: ",data_string[2])
+            print("Username: ",data_string[3])
+            print("Email: ",data_string[4])
+            print("Password: ",data_string[5])
+            print("Country: ",data_string[6])
+
+        connection_object.send(confirm_msg.encode('ascii'))
     connection_object.close()
 
 def main():
