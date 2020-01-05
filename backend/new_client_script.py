@@ -21,7 +21,13 @@ def main(port_no):
     print("\nSend data to the server to listen its echo.")
 
     while True:
-        data = str(input("\nType something: "))
+        first_name = str(input("\nType First Name: "))
+        last_name = str(input("\nType Last Name: "))
+        user_name = str(input("\nType User Name: "))
+        email = str(input("\nType Email: "))
+        password = str(input("\nType Password: "))
+        country = str(input("\nType Country: "))
+        data = ('ts'+':'+first_name+':'+last_name+':'+user_name+':'+email+':'+password+':'+country)
         server.send(data.encode('ascii'))
         data_recv = server.recv(1024)
         print("Received from server : ",str(data_recv.decode('ascii')))
