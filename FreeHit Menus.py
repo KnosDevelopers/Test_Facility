@@ -1,6 +1,7 @@
 #importing necessary libraries
 import pygame
 import time
+import os
 
 #intializing pygame
 pygame.init()
@@ -13,9 +14,9 @@ display_height = 500
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 
 #image surfaces
-free_hit = pygame.image.load(r'E:\free_hit_images\free_hit_small.png')
-sign_in = pygame.image.load(r'E:\free_hit_images\sign_in.png')
-sign_in = pygame.image.load(r'E:\free_hit_images\sign_up.png')
+free_hit = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/frontend resources/free_hit_small.png')
+sign_in = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/frontend resources/sign_in.png')
+sign_up = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/frontend resources/sign_up.png')
 
 #game window name
 pygame.display.set_caption('Free Hit')
@@ -31,6 +32,26 @@ grey = (200,200,200)
 clock = pygame.time.Clock()
 
 
+def free_hit_start():
+    font = pygame.font.Font(None, display_width//10)
+    text = font.render('FREE HIT', True, black)
+    textsec=text.copy()
+    alpha_surf = pygame.Surface(textsec.get_size(), pygame.SRCALPHA)
+    alpha = 255
+    textRect = text.get_rect()
+    textRect.center = (display_width // 2, display_height // 2)
+    while True:
+        if alpha > 0:
+            alpha = max(alpha-3, 0)
+            textsec=text.copy()
+            alpha_surf.fill((255, 255, 255, alpha))
+            textsec.blit(alpha_surf, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+        else:
+            break
+        gameDisplay.fill(white)
+        gameDisplay.blit(textsec, textRect)
+        pygame.display.flip()
+        clock.tick(30)
  
 #text function
 def text_objects(text,color):
@@ -239,7 +260,7 @@ while not gameexit:
     
 
     
-    
+    free_hit_start()
     
     main_menu()
     

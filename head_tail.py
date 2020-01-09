@@ -115,7 +115,7 @@ if(bat_first==1):
                 break
             else:
                 print("Please enter number between 1 and 6!")
-        option_comp=random.randrange(1,6)
+        option_comp=random.randint(1,6)
         print("Computer chose ",option_comp)
         if(option==option_comp):
             print("You are out, your total was",total)
