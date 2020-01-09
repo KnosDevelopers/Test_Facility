@@ -1,29 +1,43 @@
 #importing necessary libraries
 import pygame
 import time
+
 #intializing pygame
 pygame.init()
-#
+
+#display dimensions
 display_width = 800
 display_height = 500
+
 #display surface
 gameDisplay = pygame.display.set_mode((display_width,display_height))
+
+#image surfaces
+free_hit = pygame.image.load(r'E:\free_hit_images\free_hit_small.png')
+sign_in = pygame.image.load(r'E:\free_hit_images\sign_in.png')
+sign_in = pygame.image.load(r'E:\free_hit_images\sign_up.png')
+
 #game window name
 pygame.display.set_caption('Free Hit')
+
 #font to be used in the game
 font = pygame.font.SysFont('arial', 25)
+
 #colors to be used
 red = (255,0,0)
 white = (255,255,255)
 black = (0,0,0)
 grey = (200,200,200)
 clock = pygame.time.Clock()
+
+
  
 #text function
 def text_objects(text,color):
     textsurf = font.render(text,True,color)
     return textsurf,textsurf.get_rect()
-#function for the text to be shown on button    
+#function for the text to be shown on button 
+
 def text_to_button(text,color,button_x,button_y,button_width,button_height):
     textsurf, textrect = text_objects(text,color)
     #centering the text to button
@@ -40,6 +54,8 @@ def text_button(text,x,y,width,height,inactive_color,active_color,action):
         if click[0] == 1 and action != None:
             if action == 'Sign In':
                 sign_in_menu()
+            elif action == 'Guest':
+                guest_menu()
             elif action == 'Ok':
                 After_succesful_signin_menu()
             elif action == 'Sign Up':
@@ -62,30 +78,30 @@ def text_button(text,x,y,width,height,inactive_color,active_color,action):
     else:
         text_to_button(text,inactive_color,x,y,width,height)
         
+        
 #main menu for game
 def main_menu():
     gameDisplay = pygame.display.set_mode((display_width,display_height))
-    
     
     gamequit = False
     
     while not gamequit:
         
+        gameDisplay.fill(white)
+        gameDisplay.blit(free_hit, (250, 80))
         
-        
-        gameDisplay.fill(white) 
-        pygame.draw.rect(gameDisplay, white, [350,150,100,25])
-        pygame.draw.rect(gameDisplay, white, [350,190,100,25])
-        pygame.draw.rect(gameDisplay, white, [350,230,100,25])
-        pygame.draw.rect(gameDisplay, white, [350,270,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,150,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,190,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,230,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,270,100,25])
 
         cur = pygame.mouse.get_pos()
 
 
-        text_button("Sign In",350,150,100,25,black,red, action = 'Sign In')
-        text_button("Sign Up",350,190,100,25,black,red,action = 'Sign Up')
-        text_button("Guest",350,230,100,25,black,red,action = None)
-        text_button("Exit",350,270,100,25,black,red,action = 'Exit')
+        text_button("Sign In",350,180,100,25,black,red, action = 'Sign In')
+        text_button("Sign Up",350,220,100,25,black,red,action = 'Sign Up')
+        text_button("Guest",350,260,100,25,black,red,action = 'Guest')
+        text_button("Exit",350,300,100,25,black,red,action = 'Exit')
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -94,6 +110,35 @@ def main_menu():
                 quit()
             
 
+#guest menu
+def guest_menu():
+    back  = False
+    while not back:
+        gameDisplay.fill(white) 
+        
+        gameDisplay.blit(free_hit, (250, 80))
+        
+#         pygame.draw.rect(gameDisplay, white, [350,150,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,190,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,230,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,270,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,310,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,350,100,25])
+
+        cur = pygame.mouse.get_pos()
+
+
+        text_button("Single Player",350,180,100,25,black,red,action = None )
+        text_button("Leaderboard",350,220,100,25,black,red,action = None)
+        text_button("Achievements",350,260,100,25,black,red,action = None)
+        text_button("Help",350,300,100,25,black,red,action = None)
+        text_button("Exit",350,340,100,25,black,red,action = 'Exit')
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                back = True
+                pygame.quit()
+                quit()
     
 #menu after clicking sign in option
 def sign_in_menu():
@@ -101,21 +146,26 @@ def sign_in_menu():
     back  = False
     while not back:
         gameDisplay.fill(white) 
-        pygame.draw.rect(gameDisplay, white, [350,150,100,25])
-        pygame.draw.rect(gameDisplay, grey, [475,150,125,25])
-        pygame.draw.rect(gameDisplay, grey, [475,190,125,25])
-        pygame.draw.rect(gameDisplay, white, [350,190,100,25])
-        pygame.draw.rect(gameDisplay, white, [350,230,100,25])
-        pygame.draw.rect(gameDisplay, white, [350,270,100,25])
+        
+        gameDisplay.blit(sign_in, (275, 80))
+        
+#        pygame.draw.rect(gameDisplay, white, [350,150,100,25])
+        pygame.draw.rect(gameDisplay, grey, [475,180,125,25])
+        pygame.draw.rect(gameDisplay, grey, [475,1220,125,25])
+#         pygame.draw.rect(gameDisplay, white, [350,190,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,230,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,270,100,25])
 
         cur = pygame.mouse.get_pos()
 
 
-        text_button("Email",350,150,100,25,black,red,action = None )
-        text_button("Password",350,190,100,25,black,red,action = None)
-        text_button("Ok",350,230,100,25,black,red,action = 'Ok')
-        text_button("Back",350,270,100,25,black,red,action = 'Back')
-        pygame.display.update()
+        text_button("Email",350,180,100,25,black,red,action = None )
+        text_button("Password",350,220,100,25,black,red,action = None)
+        text_button("Ok",350,260,100,25,black,red,action = 'Ok')
+        text_button("Back",350,300,100,25,black,red,action = 'Back')
+        
+
+        pygame.display.update() 
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
@@ -126,18 +176,21 @@ def sign_up_menu():
     back  = False
     while not back:
         gameDisplay.fill(white) 
-        pygame.draw.rect(gameDisplay, white, [350,150,100,25])
-        pygame.draw.rect(gameDisplay, white, [350,190,100,25])
-        pygame.draw.rect(gameDisplay, white, [350,230,100,25])
-        pygame.draw.rect(gameDisplay, white, [350,270,100,25])
+        
+        gameDisplay.blit(sign_in, (263, 80))
+        
+#         pygame.draw.rect(gameDisplay, white, [350,150,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,190,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,230,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,270,100,25])
 
         cur = pygame.mouse.get_pos()
 
 
-        text_button("Email",350,150,100,25,black,red,action = None )
-        text_button("Write Password",350,190,100,25,black,red,action = None)
-        text_button("Rewrite Password",350,230,100,25,black,red,action = None)
-        text_button("Back",350,270,100,25,black,red,action = 'Back from signup')
+        text_button("Email",350,180,100,25,black,red,action = None )
+        text_button("Write Password",350,220,100,25,black,red,action = None)
+        text_button("Rewrite Password",350,260,100,25,black,red,action = None)
+        text_button("Back",350,300,100,25,black,red,action = 'Back from signup')
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
@@ -149,22 +202,25 @@ def After_succesful_signin_menu():
     back  = False
     while not back:
         gameDisplay.fill(white) 
-        pygame.draw.rect(gameDisplay, white, [350,150,100,25])
-        pygame.draw.rect(gameDisplay, white, [350,190,100,25])
-        pygame.draw.rect(gameDisplay, white, [350,230,100,25])
-        pygame.draw.rect(gameDisplay, white, [350,270,100,25])
-        pygame.draw.rect(gameDisplay, white, [350,310,100,25])
-        pygame.draw.rect(gameDisplay, white, [350,350,100,25])
+        
+        gameDisplay.blit(free_hit, (250, 80))
+        
+#         pygame.draw.rect(gameDisplay, white, [350,150,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,190,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,230,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,270,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,310,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,350,100,25])
 
         cur = pygame.mouse.get_pos()
 
 
-        text_button("Single Player",350,150,100,25,black,red,action = None )
-        text_button("Multiplayer",350,190,100,25,black,red,action = None)
-        text_button("Help",350,230,100,25,black,red,action = None)
-        text_button("Leaderboard",350,270,100,25,black,red,action = None)
-        text_button("Achievements",350,310,100,25,black,red,action = None)
-        text_button("Exit",350,350,100,25,black,red,action = 'Exit')
+        text_button("Single Player",350,180,100,25,black,red,action = None )
+        text_button("Multiplayer",350,220,100,25,black,red,action = None)
+        text_button("Leaderboard",350,260,100,25,black,red,action = None)
+        text_button("Achievements",350,300,100,25,black,red,action = None)
+        text_button("Help",350,340,100,25,black,red,action = None)
+        text_button("Exit",350,380,100,25,black,red,action = 'Exit')
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -183,9 +239,12 @@ while not gameexit:
     
 
     
-     
+    
     
     main_menu()
+    
+    
+    
     
     
     
