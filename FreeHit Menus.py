@@ -15,8 +15,21 @@ gameDisplay = pygame.display.set_mode((display_width,display_height))
 
 #image surfaces
 free_hit = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/frontend resources/free_hit_small.png')
+free_hit_big = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/frontend resources/free_hit_big.png')
 sign_in = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/frontend resources/sign_in.png')
 sign_up = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/frontend resources/sign_up.png')
+knos_logo_image = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/frontend resources/knos_logo.png')
+
+#loading sounds
+# click_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__))+'/frontend resources/click2.wav')
+
+#setting volume
+click_sound.set_volume(3)
+
+#function for playing click sound
+# def play_click_sound():
+#     click_sound.play()
+    
 
 #game window name
 pygame.display.set_caption('Free Hit')
@@ -31,27 +44,44 @@ black = (0,0,0)
 grey = (200,200,200)
 clock = pygame.time.Clock()
 
+def knos_logo():
+    gameDisplay = pygame.display.set_mode((display_width,display_height))
+    gameDisplay.fill(white)
+    gameDisplay.blit(knos_logo_image, (200, 50))
+    pygame.display.update()
+    time.sleep(4)
 
-def free_hit_start():
-    font = pygame.font.Font(None, display_width//10)
-    text = font.render('FREE HIT', True, black)
-    textsec=text.copy()
-    alpha_surf = pygame.Surface(textsec.get_size(), pygame.SRCALPHA)
-    alpha = 255
-    textRect = text.get_rect()
-    textRect.center = (display_width // 2, display_height // 2)
-    while True:
-        if alpha > 0:
-            alpha = max(alpha-3, 0)
-            textsec=text.copy()
-            alpha_surf.fill((255, 255, 255, alpha))
-            textsec.blit(alpha_surf, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-        else:
-            break
-        gameDisplay.fill(white)
-        gameDisplay.blit(textsec, textRect)
-        pygame.display.flip()
-        clock.tick(30)
+
+def free_hit_logo():
+    gameDisplay = pygame.display.set_mode((display_width,display_height))
+    gameDisplay.fill(white)
+    gameDisplay.blit(free_hit_big, (200, 218))
+    pygame.display.update()
+    time.sleep(4)
+
+
+
+
+# def free_hit_start():
+#     font = pygame.font.Font(None, display_width//10)
+#     text = font.render('FREE HIT', True, black)
+#     textsec=text.copy()
+#     alpha_surf = pygame.Surface(textsec.get_size(), pygame.SRCALPHA)
+#     alpha = 255
+#     textRect = text.get_rect()
+#     textRect.center = (display_width // 2, display_height // 2)
+#     while True:
+#         if alpha > 0:
+#             alpha = max(alpha-3, 0)
+#             textsec=text.copy()
+#             alpha_surf.fill((255, 255, 255, alpha))
+#             textsec.blit(alpha_surf, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+#         else:
+#             break
+#         gameDisplay.fill(white)
+#         gameDisplay.blit(textsec, textRect)
+#         pygame.display.flip()
+#         clock.tick(15)
  
 #text function
 def text_objects(text,color):
@@ -66,13 +96,14 @@ def text_to_button(text,color,button_x,button_y,button_width,button_height):
     gameDisplay.blit(textsurf,textrect)
 
 #function for button (in this case "textual button")
-def text_button(text,x,y,width,height,inactive_color,active_color,action):
+def text_button(text,x,y,width,height,inactive_color,active_color,action,sound):
     cur = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     
     if x + width > cur[0] > x and y + height > cur[1] > y:
+        #play_click_sound()
         text_to_button(text,active_color,x,y,width,height)
-        if click[0] == 1 and action != None:
+        if click[0] == 1 and action != None and sound != None:
             if action == 'Sign In':
                 sign_in_menu()
             elif action == 'Guest':
@@ -92,6 +123,8 @@ def text_button(text,x,y,width,height,inactive_color,active_color,action):
                 print('')
             elif action == 'Pass':
                 print('')
+            
+
                 
                 
             
@@ -119,10 +152,10 @@ def main_menu():
         cur = pygame.mouse.get_pos()
 
 
-        text_button("Sign In",350,180,100,25,black,red, action = 'Sign In')
-        text_button("Sign Up",350,220,100,25,black,red,action = 'Sign Up')
-        text_button("Guest",350,260,100,25,black,red,action = 'Guest')
-        text_button("Exit",350,300,100,25,black,red,action = 'Exit')
+        text_button("Sign In",350,180,100,25,black,red, action = 'Sign In',sound = 'Yes')
+        text_button("Sign Up",350,220,100,25,black,red,action = 'Sign Up',sound = 'Yes')
+        text_button("Guest",350,260,100,25,black,red,action = 'Guest',sound = 'Yes')
+        text_button("Exit",350,300,100,25,black,red,action = 'Exit',sound = 'Yes')
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -149,11 +182,11 @@ def guest_menu():
         cur = pygame.mouse.get_pos()
 
 
-        text_button("Single Player",350,180,100,25,black,red,action = None )
-        text_button("Leaderboard",350,220,100,25,black,red,action = None)
-        text_button("Achievements",350,260,100,25,black,red,action = None)
-        text_button("Help",350,300,100,25,black,red,action = None)
-        text_button("Exit",350,340,100,25,black,red,action = 'Exit')
+        text_button("Single Player",350,180,100,25,black,red,action = None,sound = 'Yes' )
+        text_button("Leaderboard",350,220,100,25,black,red,action = None,sound = 'Yes')
+        text_button("Achievements",350,260,100,25,black,red,action = None,sound = 'Yes')
+        text_button("Help",350,300,100,25,black,red,action = None,sound = 'Yes')
+        text_button("Exit",350,340,100,25,black,red,action = 'Exit',sound = 'Yes')
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -180,10 +213,10 @@ def sign_in_menu():
         cur = pygame.mouse.get_pos()
 
 
-        text_button("Email",350,180,100,25,black,red,action = None )
-        text_button("Password",350,220,100,25,black,red,action = None)
-        text_button("Ok",350,260,100,25,black,red,action = 'Ok')
-        text_button("Back",350,300,100,25,black,red,action = 'Back')
+        text_button("Email",350,180,100,25,black,red,action = None,sound = 'Yes' )
+        text_button("Password",350,220,100,25,black,red,action = None,sound = 'Yes')
+        text_button("Ok",350,260,100,25,black,red,action = 'Ok',sound = 'Yes')
+        text_button("Back",350,300,100,25,black,red,action = 'Back',sound = 'Yes')
         
 
         pygame.display.update() 
@@ -208,10 +241,10 @@ def sign_up_menu():
         cur = pygame.mouse.get_pos()
 
 
-        text_button("Email",350,180,100,25,black,red,action = None )
-        text_button("Write Password",350,220,100,25,black,red,action = None)
-        text_button("Rewrite Password",350,260,100,25,black,red,action = None)
-        text_button("Back",350,300,100,25,black,red,action = 'Back from signup')
+        text_button("Email",350,180,100,25,black,red,action = None,sound = 'Yes' )
+        text_button("Write Password",350,220,100,25,black,red,action = None,sound = 'Yes')
+        text_button("Rewrite Password",350,260,100,25,black,red,action = None,sound = 'Yes')
+        text_button("Back",350,300,100,25,black,red,action = 'Back from signup',sound = 'Yes')
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
@@ -236,12 +269,12 @@ def After_succesful_signin_menu():
         cur = pygame.mouse.get_pos()
 
 
-        text_button("Single Player",350,180,100,25,black,red,action = None )
-        text_button("Multiplayer",350,220,100,25,black,red,action = None)
-        text_button("Leaderboard",350,260,100,25,black,red,action = None)
-        text_button("Achievements",350,300,100,25,black,red,action = None)
-        text_button("Help",350,340,100,25,black,red,action = None)
-        text_button("Exit",350,380,100,25,black,red,action = 'Exit')
+        text_button("Single Player",350,180,100,25,black,red,action = None,sound = 'Yes' )
+        text_button("Multiplayer",350,220,100,25,black,red,action = None,sound = 'Yes')
+        text_button("Leaderboard",350,260,100,25,black,red,action = None,sound = 'Yes')
+        text_button("Achievements",350,300,100,25,black,red,action = None,sound = 'Yes')
+        text_button("Help",350,340,100,25,black,red,action = None,sound = 'Yes')
+        text_button("Exit",350,380,100,25,black,red,action = 'Exit',sound = 'Yes')
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -260,7 +293,10 @@ while not gameexit:
     
 
     
-    free_hit_start()
+    #free_hit_start()
+    knos_logo()
+    free_hit_logo()
+    
     
     main_menu()
     
