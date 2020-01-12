@@ -24,7 +24,7 @@ knos_logo_image = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'
 # click_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__))+'/frontend resources/click2.wav')
 
 #setting volume
-click_sound.set_volume(3)
+#click_sound.set_volume(3)
 
 #function for playing click sound
 # def play_click_sound():
