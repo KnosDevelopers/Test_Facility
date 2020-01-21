@@ -6,12 +6,73 @@ import os
 #intializing pygame
 pygame.init()
 
+#making text input class
+validChars = "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./"
+shiftChars = '~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:"ZXCVBNM<>?'
+class TextBox(pygame.sprite.Sprite):
+  def __init__(self):
+    pygame.sprite.Sprite.__init__(self)
+    self.text = ""
+    self.font = pygame.font.SysFont('arial', 25)
+    self.image = self.font.render("Enter your name", False, [0, 0, 0])
+    self.rect = self.image.get_rect()
+
+  def add_chr(self, char):
+    global shiftDown
+    if char in validChars and not shiftDown:
+        self.text += char
+    elif char in validChars and shiftDown:
+        self.text += shiftChars[validChars.index(char)]
+    self.update()
+
+  def update(self):
+    old_rect_pos = self.rect.center
+    self.image = self.font.render(self.text, False, [0, 0, 0])
+    self.rect = self.image.get_rect()
+    self.rect.center = old_rect_pos
+
+
+
+textBox = TextBox()
+shiftDown = False
+#textBox.rect.center = [320, 240]
+
 #display dimensions
 display_width = 800
 display_height = 500
 
 #display surface
 gameDisplay = pygame.display.set_mode((display_width,display_height))
+
+#function for text input class
+def user_input():
+    #gameDisplay = pygame.display.set_mode((display_width,display_height))
+    running = True
+    while running:
+        gameDisplay.fill(white)
+        gameDisplay.blit(textBox.image, [475,180,125,25])
+        pygame.display.update()
+        for e in pygame.event.get():
+            if e.type == pygame.QUIT:
+                running = False
+            if e.type == pygame.KEYUP:
+                if e.key in [pygame.K_RSHIFT, pygame.K_LSHIFT]:
+                    shiftDown = False
+            if e.type == pygame.KEYDOWN:
+                textBox.add_chr(pygame.key.name(e.key))
+                if e.key == pygame.K_SPACE:
+                    textBox.text += " "
+                    textBox.update()
+                if e.key in [pygame.K_RSHIFT, pygame.K_LSHIFT]:
+                    shiftDown = True
+                if e.key == pygame.K_BACKSPACE:
+                    textBox.text = textBox.text[:-1]
+                    textBox.update()
+                if e.key == pygame.K_RETURN:
+                    if len(textBox.text) > 0:
+                        #print (textBox.text)
+                        running = False
+                        
 
 #image surfaces
 free_hit = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/frontend resources/free_hit_small.png')
@@ -21,14 +82,17 @@ sign_up = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/fronten
 knos_logo_image = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/frontend resources/knos_logo.png')
 
 #loading sounds
-# click_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__))+'/frontend resources/click2.wav')
+#click_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__))+'/frontend resources/click.wav')
 
 #setting volume
 #click_sound.set_volume(3)
 
 #function for playing click sound
-# def play_click_sound():
-#     click_sound.play()
+#def play_click_sound():
+    #click_sound.play()
+    # pygame.mixer.Sound.play(click_sound)
+    # pygame.mixer.music.stop()
+    
     
 
 #game window name
@@ -100,8 +164,12 @@ def text_button(text,x,y,width,height,inactive_color,active_color,action,sound):
     cur = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     
+    
     if x + width > cur[0] > x and y + height > cur[1] > y:
-        #play_click_sound()
+        # play_click_sound()
+        # test = pygame.mixer.get_num_channels()
+        
+
         text_to_button(text,active_color,x,y,width,height)
         if click[0] == 1 and action != None and sound != None:
             if action == 'Sign In':
@@ -119,10 +187,17 @@ def text_button(text,x,y,width,height,inactive_color,active_color,action,sound):
             elif action == 'Exit':
                 pygame.quit()
                 quit()
+            elif action == 'single player':
+                Single_player_menu()
+            elif action == 'Back to Guest Menu':
+                guest_menu()
             elif action == 'Email':
-                print('')
+                user_input()
             elif action == 'Pass':
                 print('')
+            
+            # elif sound == 'Yes':
+            #     play_click_sound()
             
 
                 
@@ -213,10 +288,12 @@ def sign_in_menu():
         cur = pygame.mouse.get_pos()
 
 
-        text_button("Email",350,180,100,25,black,red,action = None,sound = 'Yes' )
+        text_button("Email",350,180,100,25,black,red,action = 'Email',sound = 'Yes' )
         text_button("Password",350,220,100,25,black,red,action = None,sound = 'Yes')
         text_button("Ok",350,260,100,25,black,red,action = 'Ok',sound = 'Yes')
         text_button("Back",350,300,100,25,black,red,action = 'Back',sound = 'Yes')
+
+        
         
 
         pygame.display.update() 
@@ -269,7 +346,7 @@ def After_succesful_signin_menu():
         cur = pygame.mouse.get_pos()
 
 
-        text_button("Single Player",350,180,100,25,black,red,action = None,sound = 'Yes' )
+        text_button("Single Player",350,180,100,25,black,red,action = 'single player',sound = 'Yes' )
         text_button("Multiplayer",350,220,100,25,black,red,action = None,sound = 'Yes')
         text_button("Leaderboard",350,260,100,25,black,red,action = None,sound = 'Yes')
         text_button("Achievements",350,300,100,25,black,red,action = None,sound = 'Yes')
@@ -281,6 +358,36 @@ def After_succesful_signin_menu():
                 back = True
                 pygame.quit()
                 quit()
+
+#single player menu 
+def Single_player_menu():
+    back  = False
+    while not back:
+        gameDisplay.fill(white) 
+        
+        gameDisplay.blit(free_hit, (250, 80))
+        
+#         pygame.draw.rect(gameDisplay, white, [350,150,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,190,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,230,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,270,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,310,100,25])
+#         pygame.draw.rect(gameDisplay, white, [350,350,100,25])
+
+        cur = pygame.mouse.get_pos()
+
+
+        text_button("Your Team",350,180,100,25,black,red,action = None,sound = 'Yes' )
+        text_button("Opposite Team",350,220,100,25,black,red,action = None,sound = 'Yes')
+        text_button("Overs",350,260,100,25,black,red,action = None,sound = 'Yes')
+        text_button("Difficulty Level",350,300,100,25,black,red,action = None,sound = 'Yes')
+        text_button("Start Game",350,380,100,25,black,red,action = None,sound = 'Yes')
+        text_button("Back",350,420,100,25,black,red,action = 'Back to Guest Menu',sound = 'Yes')
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    back = True
 
 gameexit = False
 while not gameexit:
