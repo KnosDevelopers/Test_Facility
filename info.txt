@@ -6,3 +6,5 @@ You can create further branches off this branch and can commit to this branch (d
 NOTE: *** You can not merge this branch or any further child branches to the 'master branch'.
           You have to tell your project admin to review the branch. Then he has the power to
           merge your child branches or this 'developement' branch to the 'master' branch ***
+
+Shaheer Bhai
