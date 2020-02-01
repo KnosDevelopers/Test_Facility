@@ -47,7 +47,7 @@ def port_updater():
     full_xpath = str("/html/body/div[2]/div/div/div/div[1]/div[1]/ul/li/div/table/tbody/tr[1]/td")
     port_no = (browser.find_element_by_xpath(full_xpath)).text
 
-    client = pymongo.MongoClient("mongodb+srv://portupdater:freehitportupdater@testacoda-001-cj5sj.mongodb.net/test?retryWrites=true&w=majority")
+    client = pymongo.MongoClient("mongodb+srv://port_updater:freehit_portupdater@testacoda-001-cj5sj.mongodb.net/test?retryWrites=true&w=majority")
     db = client.freehit_db
     collection = db.port
     cursor = collection.find({})
