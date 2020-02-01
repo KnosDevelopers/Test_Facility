@@ -12,7 +12,7 @@ def main(port_no):
     server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     try:
         print("\nInitiating connection to the server")
-        server.connect((host,port)) 
+        server.connect((host,port))
         print("Connected to the server at",host)
     except:
         print("\nCan\'t connect due to some error")
@@ -39,14 +39,14 @@ def main(port_no):
     server.close()
 
 def port_checker():
-    
-    client = pymongo.MongoClient("mongodb+srv://portmaster:freehitportmaster@testacoda-001-cj5sj.mongodb.net/test?retryWrites=true&w=majority")
+
+    client = pymongo.MongoClient("mongodb+srv://port_checker:freehit_portchecker@testacoda-001-cj5sj.mongodb.net/test?retryWrites=true&w=majority")
     db = client.freehit_db
     collection = db.port
     cursor = collection.find({})
     for document in cursor:
         port_no = document['port']
-    
+
     return port_no
-    
+
 main(port_checker())
