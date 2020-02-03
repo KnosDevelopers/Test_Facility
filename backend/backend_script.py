@@ -20,7 +20,11 @@ def connection_handler(connection_object):
             print("Password: ",data_string[5])
             print("Country: ",data_string[6])
 
-        connection_object.send(confirm_msg.encode('ascii'))
+        try:
+            connection_object.send(confirm_msg.encode('ascii'))
+        except:
+            print("Connection lost to client")
+            break
     connection_object.close()
 
 def main():
