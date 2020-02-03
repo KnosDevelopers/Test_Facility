@@ -18,8 +18,6 @@ def main(port_no):
         print("\nCan\'t connect due to some error")
         quit()
 
-    print("\nSend data to the server to listen its echo.")
-
     while True:
         first_name = str(input("\nType First Name: "))
         last_name = str(input("\nType Last Name: "))
@@ -36,7 +34,7 @@ def main(port_no):
             continue
         else:
             break
-    server.close()
+    quit()
 
 def port_checker():
 
