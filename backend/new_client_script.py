@@ -3,6 +3,7 @@
 import socket
 import smtplib
 import pymongo
+import re
 
 def main(port_no):
     host = "0.tcp.ngrok.io" #the local IP of the server
@@ -16,37 +17,73 @@ def main(port_no):
         print("Connected to the server at",host)
     except:
         print("\nCan\'t connect due to some error")
-        quit()
+        pass
 
-    print("\nSend data to the server to listen its echo.")
-
-    while True:
-        first_name = str(input("\nType First Name: "))
-        last_name = str(input("\nType Last Name: "))
-        user_name = str(input("\nType User Name: "))
-        email = str(input("\nType Email: "))
-        password = str(input("\nType Password: "))
-        country = str(input("\nType Country: "))
-        data = ('ts'+':'+first_name+':'+last_name+':'+user_name+':'+email+':'+password+':'+country)
-        server.send(data.encode('ascii'))
-        data_recv = server.recv(1024)
-        print("Received from server : ",str(data_recv.decode('ascii')))
-        ans = input("\nDo you want to continue? (y/n)")
-        if ans=='y':
-            continue
+    print("Testing signup feature...")
+    name = str(input("\nName : "))
+    flag = False
+    while flag==False:
+        username = input("\nUsername : ")
+        if username_validator(username) == "ErrorCode : ec02":
+            print("\nUsername is already taken! Try another one")
+            flag = False
         else:
-            break
+            flag = True
+    flag = False
+    while flag==False:
+        email = input("\nEmail : ")
+        if email_validator(email) == "ErrorCode : ec03":
+            print("Invalid email! Retype the email")
+            flag = False
+        else:
+            flag = True
+    password = input("\nPassword : ")
+    flag = False
+    while flag==False:
+        retype = input("\nRetype password : ")
+        if password_repeater(password,retype) == "ErrorCode : ec04":
+            print("Passwords dont match! Retype password")
+            flag == False
+        else:
+            flag = True
+    print("oc01"+":"+name+":"+username+":"+email+":"+password)
     server.close()
 
 def port_checker():
-
     client = pymongo.MongoClient("mongodb+srv://port_checker:freehit_portchecker@testacoda-001-cj5sj.mongodb.net/test?retryWrites=true&w=majority")
     db = client.freehit_db
     collection = db.port
     cursor = collection.find({})
     for document in cursor:
         port_no = document['port']
-
     return port_no
+
+def password_repeater(pswrd,rpswrd):
+    if pswrd != rpswrd:
+        return("ErrorCode : ec04")
+    else:
+        return True
+
+def username_validator(username):
+    #Creating a record of all existing usernames to avoid conflict.
+    client = pymongo.MongoClient("mongodb+srv://userdata_checker:freehit_userdatachecker@testacoda-001-cj5sj.mongodb.net/test?retryWrites=true&w=majority")
+    db = client.freehit_db
+    collection = db.user_profile_data
+    cursor = collection.distinct("username")
+    for existing_username in cursor:
+        if username == existing_username:
+            return("ErrorCode : ec02")
+        else:
+            pass
+    return True
+
+def email_validator(email):
+    regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
+    if (re.search(regex,email)):
+        return True
+    else:
+        return("ErrorCode : ec03")
+
+
 
 main(port_checker())
