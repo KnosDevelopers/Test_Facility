@@ -46,7 +46,7 @@ def main(port_no):
             flag == False
         else:
             flag = True
-    data_string = "oc01"+":"+name+":"+username+":"+email+":"+password
+    data_string = name+":"+username+":"+email+":"+password
     data_train('op01',data_string,server)
     server.close()
 
