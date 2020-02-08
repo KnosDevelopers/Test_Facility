@@ -81,7 +81,15 @@ def username_validator(username):
 def email_validator(email):
     regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
     if (re.search(regex,email)):
-        return True
+        client = pymongo.MongoClient("mongodb+srv://userdata_checker:freehit_userdatachecker@testacoda-001-cj5sj.mongodb.net/test?retryWrites=true&w=majority")
+        db = client.freehit_db
+        collection = db.user_profile_data
+        cursor = collection.distinct("email")
+        for existing_email in cursor:
+            if existing_email == email:
+                return("ErrorCode : ec06")
+            else:
+                return True
     else:
         return("ErrorCode : ec03")
 
