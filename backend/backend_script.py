@@ -47,11 +47,17 @@ def port_updater():
 
     collection.update_one({"port" : old_port_no},{"$set" : {"port" : port_no[21:]}})
 
-#def operation_handler(data_chunks):
+def operation_handler(data_chunks):
     #checks for the operation code and performs the operation accordingly.
-#    op_code = data_chunks[0]
-#    if op_code
+    op_code = data_chunks[0]
+    data_document = {"name":data_chunks[1],"username":data_chunks[2],"email":data_chunks[3],"password":data_chunks[4]}
+    if op_code == "op01":
+        client = pymongo.MongoClient("mongodb+srv://userdata_updater:freehit_userdataupdater@testacoda-001-cj5sj.mongodb.net/test?retryWrites=true&w=majority")
+        db = client.freehit_db
+        collection = db.user_profile_data
+        collection.insert_one(data_document)
 
 if __name__ == '__main__':
     port_updater()
+
     main()
