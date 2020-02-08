@@ -46,7 +46,8 @@ def main(port_no):
             flag == False
         else:
             flag = True
-    print("oc01"+":"+name+":"+username+":"+email+":"+password)
+    data_string = "oc01"+":"+name+":"+username+":"+email+":"+password
+    data_train('op01',data_string,server)
     server.close()
 
 def port_checker():
@@ -84,6 +85,22 @@ def email_validator(email):
     else:
         return("ErrorCode : ec03")
 
+def data_train(opcode,data_string,server_object):
+    #data_train is used to send data to the server in form of a
+    #concatenated string with a prefix operation code.
+    #list of operation codes will determine the type of operation
+    #the server performs on/with the data string.
+    #list of operation codes will be made public in the repository folder.
+    #correct use of the operation code is important for correct operation.
+
+    #passing the object of the server is crucial.
+
+    data_string = opcode + ":" + data_string
+    try:
+        server_object.send(data_string.encode('ascii'))
+        print("Data sent successfully!")
+    else:
+        print("ErrorCode : ec05")
 
 
 main(port_checker())
