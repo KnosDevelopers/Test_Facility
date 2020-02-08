@@ -88,8 +88,7 @@ def email_validator(email):
         for existing_email in cursor:
             if existing_email == email:
                 return("ErrorCode : ec03")
-            else:
-                return True
+        return True
     else:
         return("ErrorCode : ec03")
 
