@@ -33,7 +33,7 @@ def main(port_no):
     while flag==False:
         email = input("\nEmail : ")
         if email_validator(email) == "ErrorCode : ec03":
-            print("Invalid email! Retype the email")
+            print("Invalid email or the email is already taken")
             flag = False
         else:
             flag = True
@@ -87,7 +87,7 @@ def email_validator(email):
         cursor = collection.distinct("email")
         for existing_email in cursor:
             if existing_email == email:
-                return("ErrorCode : ec06")
+                return("ErrorCode : ec03")
             else:
                 return True
     else:
