@@ -11,6 +11,8 @@ def connection_handler(connection_object):
     while True:
         cmd_data = connection_object.recv(1024)
         data_chunks = (cmd_data.decode('ascii')).split(":")
+        for i in data_chunks:
+            print(i)
         operation_handler(data_chunks)
 
     connection_object.close()
