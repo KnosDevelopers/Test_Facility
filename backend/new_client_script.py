@@ -99,7 +99,7 @@ def data_train(opcode,data_string,server_object):
     try:
         server_object.send(data_string.encode('ascii'))
         print("Data sent successfully!")
-    else:
+    except:
         print("ErrorCode : ec05")
 
 
