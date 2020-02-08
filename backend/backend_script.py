@@ -9,22 +9,9 @@ import pymongo
 
 def connection_handler(connection_object):
     while True:
-        confirm_msg = "Success"
         cmd_data = connection_object.recv(1024)
-        data_string = (cmd_data.decode('ascii')).split(":")
-        if data_string[0] == 'ts':
-            print("First name: ",data_string[1])
-            print("Last name: ",data_string[2])
-            print("Username: ",data_string[3])
-            print("Email: ",data_string[4])
-            print("Password: ",data_string[5])
-            print("Country: ",data_string[6])
+        data_chunks = (cmd_data.decode('ascii')).split(":")
 
-        try:
-            connection_object.send(confirm_msg.encode('ascii'))
-        except:
-            print("Connection lost to client")
-            break
     connection_object.close()
 
 def main():
@@ -59,6 +46,12 @@ def port_updater():
         old_port_no = document['port']
 
     collection.update_one({"port" : old_port_no},{"$set" : {"port" : port_no[21:]}})
+
+#def operation_handler(data_chunks):
+    #checks for the operation code and performs the operation accordingly.
+#    op_code = data_chunks[0]
+#    if op_code
+
 if __name__ == '__main__':
     port_updater()
     main()
